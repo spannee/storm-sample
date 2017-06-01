@@ -1,11 +1,6 @@
 # Compiled class file
 *.class
 
-# Ignore everything in this directory
-*
-# Except this file
-!.gitignore
-
 # Log file
 *.log
 
