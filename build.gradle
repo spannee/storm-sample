@@ -1,0 +1,43 @@
+buildscript {
+    repositories {
+        mavenCentral()
+        jcenter()
+    }
+
+    dependencies {
+        classpath 'eu.appsatori:gradle-fatjar-plugin:0.3'
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'idea'
+apply plugin: 'eu.appsatori.fatjar'
+
+repositories {
+    mavenCentral()
+    maven {
+        url "http://clojars.org/repo/"
+    }
+}
+
+dependencies {
+    compile group: 'org.apache.storm', name: 'storm-core', version: '1.0.3'
+
+    testCompile (
+            'junit:junit:4.11',
+            'org.mockito:mockito-all:1.9.5',
+    )
+}
+
+jar {
+    manifest {
+        attributes(
+                'Class-Path': configurations.compile.collect { it.getName() }.join(' '),
+                'Main-Class': 'com.axisrooms.storm.cluster.LogAnalyserStorm'
+        )
+    }
+}
+
+fatJar {
+    exclude 'META-INF/*.DSA'
+}
