@@ -25,10 +25,6 @@ public class RabbitMQBolt implements IRichBolt {
 
     @Override
     public void execute(Tuple tuple) {
-        //String from = tuple.getString(0);
-        //String to = tuple.getString(1);
-        //Integer duration = tuple.getInteger(2);
-        //collector.emit(new Values(from + " - " + to, duration));
         System.out.println("Hello here is the tuple - " + tuple.getString(0));
         collector.ack(tuple);
         log.info("Hello here is the tuple - " + tuple.getString(0));

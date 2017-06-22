@@ -1,11 +1,14 @@
 package com.axisrooms.storm.cluster;
 
 import com.axisrooms.storm.bolt.RabbitMQBolt;
-import com.axisrooms.storm.rabbitMQ.QueueDeclaration;
-import com.axisrooms.storm.rabbitMQ.SharedQueueWithBinding;
 import com.axisrooms.storm.spout.RabbitMQSpout;
+import com.axisrooms.storm.util.QueueDeclaration;
+import com.axisrooms.storm.util.SharedQueueWithBinding;
 import org.apache.storm.Config;
-import org.apache.storm.LocalCluster;
+import org.apache.storm.StormSubmitter;
+import org.apache.storm.generated.AlreadyAliveException;
+import org.apache.storm.generated.AuthorizationException;
+import org.apache.storm.generated.InvalidTopologyException;
 import org.apache.storm.spout.Scheme;
 import org.apache.storm.topology.TopologyBuilder;
 import org.apache.storm.tuple.Fields;
@@ -20,7 +23,7 @@ import java.util.List;
  */
 public class RabbitMQTopology {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InvalidTopologyException, AuthorizationException, AlreadyAliveException {
         TopologyBuilder builder = new TopologyBuilder();
 
         QueueDeclaration qd = new SharedQueueWithBinding("TestQueueOne", "TestExchangeOne", "testKey");
@@ -36,10 +39,13 @@ public class RabbitMQTopology {
         conf.setNumWorkers(1);
         conf.setMaxSpoutPending(5000);
 
-        LocalCluster cluster = new LocalCluster();
-        cluster.submitTopology("RabbitMQTopology", conf, builder.createTopology());
+        //LocalCluster cluster = new LocalCluster();
+        //cluster.submitTopology("RabbitMQTopology", conf, builder.createTopology());
 
-        cluster.shutdown();
+        //cluster.shutdown();
+
+        StormSubmitter.submitTopology("RabbitMQTopology", conf,   builder.createTopology());
+
     }
 
     private static class CustomScheme implements Scheme {

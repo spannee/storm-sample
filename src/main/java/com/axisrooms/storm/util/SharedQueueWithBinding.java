@@ -1,4 +1,4 @@
-package com.axisrooms.storm.rabbitMQ;
+package com.axisrooms.storm.util;
 
 import com.rabbitmq.client.AMQP;
 import com.rabbitmq.client.Channel;

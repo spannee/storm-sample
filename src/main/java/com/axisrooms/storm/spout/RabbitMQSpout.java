@@ -1,7 +1,7 @@
 package com.axisrooms.storm.spout;
 
-import com.axisrooms.storm.rabbitMQ.Constants;
-import com.axisrooms.storm.rabbitMQ.QueueDeclaration;
+import com.axisrooms.storm.util.Constants;
+import com.axisrooms.storm.util.QueueDeclaration;
 import com.rabbitmq.client.*;
 import org.apache.log4j.Logger;
 import org.apache.storm.spout.Scheme;
@@ -119,12 +119,12 @@ public class RabbitMQSpout implements IRichSpout {
             try {
                 final QueueingConsumer.Delivery delivery = amqpConsumer.nextDelivery(Constants.WAIT_FOR_NEXT_MESSAGE);
                 if (delivery == null) return;
-                final int priority = delivery.getProperties().getPriority();
+                //final int priority = delivery.getProperties().getPriority();
                 final long deliveryTag = delivery.getEnvelope().getDeliveryTag();
                 final byte[] message = delivery.getBody();
                 ByteBuffer messageBuffer = ByteBuffer.wrap(message);
-                log.info("The priority for this message is " + priority);
-                System.out.println("The priority for this message is " + priority);
+                //log.info("The priority for this message is " + priority);
+                //System.out.println("The priority for this message is " + priority);
                 collector.emit(serialisationScheme.deserialize(messageBuffer), deliveryTag);
                 /*
                  * TODO what to do about malformed messages? Skip?

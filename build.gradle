@@ -27,7 +27,8 @@ dependencies {
     compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.25'
     compile group: 'commons-cli', name: 'commons-cli', version: '1.2'
     compile group: 'commons-io', name: 'commons-io', version: '2.4'
-    compile group: 'com.rabbitmq', name: 'amqp-client', version: '4.1.1'
+    compile group: 'org.json', name: 'json', version: '20170516'
+    compile group: 'org.mongodb', name: 'mongo-java-driver', version: '3.4.2'
 
     testCompile (
             'junit:junit:4.11',
@@ -39,7 +40,7 @@ jar {
     manifest {
         attributes(
                 'Class-Path': configurations.compile.collect { it.getName() }.join(' '),
-                'Main-Class': 'com.axisrooms.storm.cluster.LogAnalyserStorm'
+                'Main-Class': 'com.axisrooms.storm.cluster.KafkaTopology'
         )
     }
 }

@@ -1,4 +1,4 @@
-package com.axisrooms.storm.rabbitMQ;
+package com.axisrooms.storm.util;
 
 /**
  * Created by Santhosh on 6/13/17.
@@ -20,4 +20,7 @@ public interface Constants {
     String RABBIT_ROUTING_KEY      = "testKey";
     String RABBIT_QUEUE_PRICE      = "TestQueueOne";
     String RABBIT_EXCHANGE         = "TestExchangeOne";
+
+    String ACCESS_KEY              = "accessKey";
+    String CHANNEL_ID              = "channelId";
 }

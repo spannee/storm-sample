@@ -1,6 +1,6 @@
 package com.axisrooms.storm.bolt;
 
-import com.axisrooms.storm.rabbitMQ.Constants;
+import com.axisrooms.storm.util.Constants;
 import com.rabbitmq.client.*;
 import org.apache.log4j.Logger;
 import org.apache.storm.task.OutputCollector;
@@ -36,13 +36,15 @@ public class KafkaPublisherBolt implements IRichBolt {
 
         String jsonRequest = "";
 
-        if(tuple != null && tuple.getString(0) != null) {
+        if(tuple.size()>0 && tuple.getString(0) != null) {
             jsonRequest = tuple.getString(0);
 
             if (!jsonRequest.isEmpty()) {
                 log.info("Hello here is the tuple - " + tuple.getString(0));
 
                 if (publishRequest(jsonRequest)) {
+                    this.collector.ack(tuple);
+                    log.info("The tuple has been pushed to rabbitMQ");
 
                 }
             }
