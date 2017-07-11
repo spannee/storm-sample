@@ -14,7 +14,7 @@ import java.io.IOException;
 import java.util.Map;
 
 @Slf4j
-public class KafkaMessengerBolt implements IRichBolt {
+public class BulkPriceBolt implements IRichBolt {
 
     private OutputCollector collector;
 
@@ -31,10 +31,15 @@ public class KafkaMessengerBolt implements IRichBolt {
             return;
 
         String jsonString = tuple.getString(4);
+
         log.info("The request - " + jsonString + " has been read");
+        log.info("Acking the tuple");
+
+        collector.ack(tuple);
 
         try {
-            responseCode = APIForwarder.redirectPost(jsonString, Constants.CM_BASE_URL, Constants.DAYWISE_PRICE_EP);
+
+            responseCode = APIForwarder.redirectPost(jsonString, Constants.CM_BASE_URL, Constants.BULK_PRICE_EP);
             log.info("Response from CM - " + responseCode);
         } catch (IOException e) {
             log.error("Some exception occurred when we hit CM - " + e.getMessage());
@@ -48,8 +53,6 @@ public class KafkaMessengerBolt implements IRichBolt {
                 log.error("Some exception occurred when we tried to process failed messages - " + e.getMessage());
             }
         }
-
-        this.collector.ack(tuple);
     }
 
     @Override
