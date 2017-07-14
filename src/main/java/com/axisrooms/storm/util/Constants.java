@@ -6,7 +6,7 @@ public interface Constants {
 
     String CM_BASE_URL             = "https://staging.axisrooms.com";
     String LOCAL_BASE_URL          = "http://localhost:8080";
-    String DEV_DIRECTORY           = "/home/git/sandbox/";
+    String DEV_DIRECTORY           = "/usr/local/storm";
 
     String CONFIG_FILE             = "storm-config.yaml";
 
