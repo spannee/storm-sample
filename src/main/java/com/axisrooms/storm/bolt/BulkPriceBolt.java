@@ -37,7 +37,7 @@ public class BulkPriceBolt implements IRichBolt {
 
         collector.ack(tuple);
 
-        try {
+        /*try {
             responseCode = APIUtil.redirectPost(jsonString, Constants.CM_BASE_URL, Constants.BULK_PRICE_EP);
             log.info("Response from CM - " + responseCode);
 
@@ -47,7 +47,7 @@ public class BulkPriceBolt implements IRichBolt {
             }
         } catch (IOException e) {
             log.error("Some exception occurred - " + e.getMessage());
-        }
+        }*/
     }
 
     @Override
