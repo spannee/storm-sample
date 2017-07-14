@@ -14,7 +14,7 @@ import java.io.IOException;
 import java.util.Map;
 
 @Slf4j
-public class BulkPriceBolt implements IRichBolt {
+public class DaywisePriceBolt implements IRichBolt {
 
     private OutputCollector collector;
 
@@ -38,7 +38,7 @@ public class BulkPriceBolt implements IRichBolt {
         collector.ack(tuple);
 
         try {
-            responseCode = APIUtil.redirectPost(jsonString, Constants.CM_BASE_URL, Constants.BULK_PRICE_EP);
+            responseCode = APIUtil.redirectPost(jsonString, Constants.CM_BASE_URL, Constants.DAYWISE_PRICE_EP);
             log.info("Response from CM - " + responseCode);
 
             if(!HttpStatus.isSuccess(responseCode)) {
@@ -48,6 +48,7 @@ public class BulkPriceBolt implements IRichBolt {
         } catch (IOException e) {
             log.error("Some exception occurred - " + e.getMessage());
         }
+
     }
 
     @Override

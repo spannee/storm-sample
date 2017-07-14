@@ -14,7 +14,7 @@ import java.io.IOException;
 import java.util.Map;
 
 @Slf4j
-public class BulkPriceBolt implements IRichBolt {
+public class UnblockChannelBolt implements IRichBolt {
 
     private OutputCollector collector;
 
@@ -38,7 +38,7 @@ public class BulkPriceBolt implements IRichBolt {
         collector.ack(tuple);
 
         try {
-            responseCode = APIUtil.redirectPost(jsonString, Constants.CM_BASE_URL, Constants.BULK_PRICE_EP);
+            responseCode = APIUtil.redirectPost(jsonString, Constants.CM_BASE_URL, Constants.UNBLOCK_CHANNEL_EP);
             log.info("Response from CM - " + responseCode);
 
             if(!HttpStatus.isSuccess(responseCode)) {

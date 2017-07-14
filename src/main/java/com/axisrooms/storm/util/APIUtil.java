@@ -6,11 +6,12 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.storm.shade.org.eclipse.jetty.http.HttpStatus;
 
 import java.io.IOException;
 
 @Slf4j
-public class APIForwarder {
+public class APIUtil {
 
     public static int redirectPost(String jsonRequest, String baseURL, String endPoint) throws IOException {
         HttpClient client = HttpClientBuilder.create().build();
@@ -23,11 +24,11 @@ public class APIForwarder {
 
         HttpResponse response = client.execute(post);
 
-        if(response != null) {
+        if(response != null)
             log.info("Response - " + response.toString());
-        }
 
         return response.getStatusLine().getStatusCode();
     }
+
 
 }
