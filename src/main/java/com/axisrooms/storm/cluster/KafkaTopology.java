@@ -1,7 +1,6 @@
 package com.axisrooms.storm.cluster;
 
-import com.axisrooms.storm.bolt.BulkPriceBolt;
-import com.axisrooms.storm.bolt.DaywisePriceBolt;
+import com.axisrooms.storm.bolt.*;
 import com.axisrooms.storm.util.Constants;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
@@ -50,22 +49,22 @@ public class KafkaTopology {
                 .setNumTasks(Utils.getInt(stormConf.get(Constants.BULK_PRICE_BOLT_TASKS)));
 
         builder.setSpout(Constants.DAYWISE_INVENTORY_SPOUT,  new KafkaSpout(daywiseInventorySpoutConfig), Utils.getInt(stormConf.get(Constants.DAYWISE_INVENTORY_SPOUT_PH)));
-        builder.setBolt(Constants.DAYWISE_INVENTORY_BOLT, new BulkPriceBolt(), Utils.getInt(stormConf.get(Constants.DAYWISE_INVENTORY_BOLT_PH)))
+        builder.setBolt(Constants.DAYWISE_INVENTORY_BOLT, new DaywiseInventoryBolt(), Utils.getInt(stormConf.get(Constants.DAYWISE_INVENTORY_BOLT_PH)))
                 .shuffleGrouping(Constants.DAYWISE_INVENTORY_SPOUT)
                 .setNumTasks( Utils.getInt(stormConf.get(Constants.DAYWISE_INVENTORY_BOLT_TASKS)));
 
         builder.setSpout(Constants.BULK_INVENTORY_SPOUT,  new KafkaSpout(bulkInventorySpoutConfig), Utils.getInt(stormConf.get(Constants.BULK_INVENTORY_SPOUT_PH)));
-        builder.setBolt(Constants.BULK_INVENTORY_BOLT, new DaywisePriceBolt(), Utils.getInt(stormConf.get(Constants.BULK_INVENTORY_BOLT_PH)))
+        builder.setBolt(Constants.BULK_INVENTORY_BOLT, new BulkInventoryBolt(), Utils.getInt(stormConf.get(Constants.BULK_INVENTORY_BOLT_PH)))
                 .shuffleGrouping(Constants.BULK_INVENTORY_SPOUT)
                 .setNumTasks(Utils.getInt(stormConf.get(Constants.BULK_INVENTORY_BOLT_TASKS)));
 
         builder.setSpout(Constants.BLOCK_CHANNEL_SPOUT,  new KafkaSpout(blockChannelSpoutConfig), Utils.getInt(stormConf.get(Constants.BLOCK_CHANNEL_SPOUT_PH)));
-        builder.setBolt(Constants.BLOCK_CHANNEL_BOLT, new BulkPriceBolt(), Utils.getInt(stormConf.get(Constants.BLOCK_CHANNEL_BOLT_PH)))
+        builder.setBolt(Constants.BLOCK_CHANNEL_BOLT, new BlockChannelBolt(), Utils.getInt(stormConf.get(Constants.BLOCK_CHANNEL_BOLT_PH)))
                 .shuffleGrouping(Constants.BLOCK_CHANNEL_SPOUT)
                 .setNumTasks(Utils.getInt(stormConf.get(Constants.BLOCK_CHANNEL_BOLT_TASKS)));
 
         builder.setSpout(Constants.UNBLOCK_CHANNEL_SPOUT,  new KafkaSpout(unblockChannelSpoutConfig), Utils.getInt(stormConf.get(Constants.UNBLOCK_CHANNEL_SPOUT_PH)));
-        builder.setBolt(Constants.UNBLOCK_CHANNEL_BOLT, new BulkPriceBolt(), Utils.getInt(stormConf.get(Constants.UNBLOCK_CHANNEL_BOLT_PH)))
+        builder.setBolt(Constants.UNBLOCK_CHANNEL_BOLT, new UnblockChannelBolt(), Utils.getInt(stormConf.get(Constants.UNBLOCK_CHANNEL_BOLT_PH)))
                 .shuffleGrouping(Constants.UNBLOCK_CHANNEL_SPOUT)
                 .setNumTasks(Utils.getInt(stormConf.get(Constants.UNBLOCK_CHANNEL_BOLT_TASKS)));
 
